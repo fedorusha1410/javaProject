@@ -12,8 +12,11 @@ public interface ApplicationService {
 
     Apps save(ApplicationDto applicationDto);
 
+    Apps getById(Long Id);
 
     Apps update(ApplicationDto applicationDto,String appsName);
 
     void delete(String appsName);
+
+    Apps getByName(String name_app);
 }

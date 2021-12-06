@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class ApplicationDto {
 
     private String name;
+
     private String desc;
 }

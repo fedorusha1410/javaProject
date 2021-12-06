@@ -14,6 +14,7 @@ import java.util.Set;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
 
     @Id

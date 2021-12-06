@@ -1,3 +1,4 @@
+
 async function Login() {
     let username = document.getElementById("login").value;
     let password = document.getElementById("password").value;
@@ -19,7 +20,14 @@ async function Login() {
 
     if (response.status === 200) {
         localStorage.setItem("jwt", data.token);
-        if (username === "admin") {
+        localStorage.setItem("Id", data.id);
+        console.log(localStorage.getItem("jwt"));
+        console.log(localStorage.getItem("Id"));
+
+
+
+
+        if (data.role=="ROLE_ADMIN") {
             document.location.href = "/admin";
         } else {
             document.location.href = "/user";

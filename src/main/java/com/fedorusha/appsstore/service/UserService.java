@@ -11,8 +11,5 @@ public interface UserService {
     User register(UserDto userDto);
 
 
-    User forgotPassword(UserDto userDto);
-
-    User resetPassword(String code, UserDto userDto);
 
 }

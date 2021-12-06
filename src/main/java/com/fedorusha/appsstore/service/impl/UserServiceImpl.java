@@ -11,10 +11,12 @@ import com.fedorusha.appsstore.model.StatusUser;
 import com.fedorusha.appsstore.model.User;
 import com.fedorusha.appsstore.repository.RoleRepository;
 import com.fedorusha.appsstore.repository.UserRepository;
+import com.fedorusha.appsstore.service.MailSender;
 import com.fedorusha.appsstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,12 +27,13 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-   // private final MailSender mailSender;
+    private final MailSender mailSender;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private static final String ROLE_USER = "USER";
+
+    private static final String ROLE_USER = "ROLE_USER";
 
     @Override
     public User findByUsername(String username) {
@@ -56,11 +59,13 @@ public class UserServiceImpl implements UserService {
         user.setCreated(new Date());
         user.setUpdated(new Date());
 
-       // sendMessageRegistration(user);
+        sendMessageRegistration(user);
 
         log.info("Register - user: {} should activate account", user);
         return userRepository.save(user);
     }
+
+
 
     private void sendMessageRegistration(User user) {
         String message = String.format(
@@ -68,17 +73,10 @@ public class UserServiceImpl implements UserService {
                         "You are registered successfully",
                 user.getUsername());
 
-        //mailSender.send(user.getEmail(), "Registration", message);
+        mailSender.send(user.getEmail(), "Registration", message);
     }
 
-    @Override
-    public User forgotPassword(UserDto userDto) {
-        return null;
-    }
 
-    @Override
-    public User resetPassword(String code, UserDto userDto) {
-        return null;
-    }
+
 
 }

@@ -35,8 +35,8 @@ function getApps() {
                     + `<input type="text" value='${values[i]}' id='${keys[i]}${counter}' style='width: 160px'/></div>`;
             }
 
-            table_value += `<button class="films" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
-            table_value += `<button class="films" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
+            table_value += `<button class="apps" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
+            table_value += `<button class="apps" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
             result.innerHTML += table_value + "<br/></div>";
             counter++;
         });
@@ -118,8 +118,8 @@ function search() {
                     + `<input type="text" value='${values[i]}' id='${keys[i]}${counter}' style='width: 160px'/></div>`;
             }
 
-            table_value += `<button class="films" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
-            table_value += `<button class="films" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
+            table_value += `<button class="apps" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
+            table_value += `<button class="apps" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
             result.innerHTML += table_value + "<br/></div>";
             counter++;
         });

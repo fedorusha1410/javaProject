@@ -1,11 +1,13 @@
 package com.fedorusha.appsstore.controller;
 
 import com.fedorusha.appsstore.dto.AuthenticationRequestDto;
+import com.fedorusha.appsstore.dto.ResponseTokenDto;
 import com.fedorusha.appsstore.model.User;
 import com.fedorusha.appsstore.security.jwt.JwtTokenProvider;
 import com.fedorusha.appsstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +39,7 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationRequestDto requestDto) throws AuthenticationException {
         final String username = requestDto.getUsername();
         final String password = requestDto.getPassword();
-
+        ResponseTokenDto tokenResponseDto = new ResponseTokenDto();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         User user = userService.findByUsername(username);
 
@@ -47,9 +49,14 @@ public class AuthenticationController {
         String token = jwtTokenProvider.createToken(username, user.getRoles());
 
         Map<Object, Object> response = new HashMap<>();
+        tokenResponseDto.setToken(token);
+        tokenResponseDto.setId(user.getId());
+        tokenResponseDto.setRole(user.getRoles().toString());
+        tokenResponseDto.setUsername(username);
         response.put("token", token);
+
         log.info("Get request : /api/auth/login");
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(tokenResponseDto, HttpStatus.OK);
     }
 
 }

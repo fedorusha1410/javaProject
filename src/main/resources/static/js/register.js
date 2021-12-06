@@ -1,25 +1,29 @@
 async function Register() {
-    let login = document.getElementById("login").value;
+    let username = document.getElementById("login").value;
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
-    fetch("api/registration", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            login: login,
-            password: password,
-            email: email
-        })
-    }).then(res => res.json()).then(res => {
-        let data = res;
-        if (!data.error) {
-            document.location.href = "/login";
-        } else {
-            document.getElementById("error").innerHTML = data.error;
-        }
-    });
+    let response = await fetch("/api/registration",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+        });
+
+    if (response.status === 200) {
+        // document.querySelector("#result").innerHTML = "check your gmail";
+        window.location.replace("http://localhost:8081/login");
+    } else {
+        let data = await response.json();
+        document.querySelector("#result").innerHTML = "please input invalid data";
+        // ClearInput();
+        console.log(data.error);
+    }
 }
