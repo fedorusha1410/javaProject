@@ -156,9 +156,9 @@ function getMyApps() {
 
                                 str += '<tr>' +
                                     '<td>' + obj.name + '</td>' +  '<td>' + obj.id_userApp + '</td>' +
-                                    '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-name="'
-                                    + obj.name +
-                                    '">Uninstall</button>' + '</td>' +
+                                    '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-id_userApp="'
+
+                                    + obj.id_userApp + '">Uninstall</button>' + '</td>' +
                                     '</tr>';
                             });
 
@@ -171,11 +171,11 @@ function getMyApps() {
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('uninstall__button')) {
                     const element = e.target;
-                    const name = element.dataset.name;
+                    //const name = element.dataset.name;
                     const idApp=element.dataset.id_userApp;
                     console.log(idApp);
-                    //console.log(name);
-                    uninstall(idApp).then(r => console.log(r));
+                    console.log(name);
+                    uninstall(idApp);
                 }
             });
 
@@ -188,7 +188,7 @@ function getMyApps() {
 }
 
 function  uninstall(id_App){
-
+console.log("Uninstall");
     let id = localStorage.getItem("Id");
     //let idApp=id_userApp;
    console.log(id_App);

@@ -18,10 +18,10 @@ public class LogAspect {
 
     // @Pointcut("@annotation(LogAnnotation)")
     @Pointcut("execution(public * com.fedorusha.appsstore.controller.AppsController.*(..))")
-    public void callAtFilmController() {
+    public void callAtAppController() {
     }
 
-    @Before("callAtFilmController()")
+    @Before("callAtAppController()")
     public void beforeCallMethod(JoinPoint jp) {
         String args = Arrays.stream(jp.getArgs())
                             .map(Object::toString)
@@ -30,7 +30,7 @@ public class LogAspect {
 
     }
 
-    @After("callAtFilmController()")
+    @After("callAtAppController()")
     public void afterCallAt(JoinPoint jp) {
         log.info("after " + jp.toString());
     }

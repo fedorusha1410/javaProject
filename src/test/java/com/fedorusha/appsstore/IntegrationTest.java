@@ -30,7 +30,7 @@ public class IntegrationTest {
     WebApplicationContext webApplicationContext;
 
     @MockBean
-    private JwtUserDetailsService ser;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -56,7 +56,7 @@ public class IntegrationTest {
         user.setStatus(StatusUser.ACTIVE);
         user.setUsername("test");
         user.setRoles(roles);
-        when(ser.loadUserByUsername("test")).thenReturn(JwtUserFactory.create(user));
+        when(jwtUserDetailsService.loadUserByUsername("test")).thenReturn(JwtUserFactory.create(user));
 
         String token = jwtTokenProvider.createToken("test", roles );
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
@@ -82,7 +82,7 @@ public class IntegrationTest {
         user.setStatus(StatusUser.ACTIVE);
         user.setUsername("test");
         user.setRoles(roles);
-        when(ser.loadUserByUsername("test")).thenReturn(JwtUserFactory.create(user));
+        when(jwtUserDetailsService.loadUserByUsername("test")).thenReturn(JwtUserFactory.create(user));
 
         String token = jwtTokenProvider.createToken("test", roles );
         Authentication authentication = jwtTokenProvider.getAuthentication(token);

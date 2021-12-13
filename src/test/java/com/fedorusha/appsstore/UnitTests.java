@@ -1,9 +1,7 @@
 package com.fedorusha.appsstore;
 
-import com.fedorusha.appsstore.dto.UserDto;
-import com.fedorusha.appsstore.model.Role;
+
 import com.fedorusha.appsstore.model.User;
-import com.fedorusha.appsstore.repository.RoleRepository;
 import com.fedorusha.appsstore.repository.UserRepository;
 import com.fedorusha.appsstore.service.UserService;
 import org.junit.Assert;
@@ -21,14 +19,10 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class AppsStoreApplicationTests {
-
-
+public class UnitTests {
     @MockBean
     private UserRepository userRep;
 
-    @MockBean
-    private RoleRepository roleRep;
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -69,6 +63,5 @@ class AppsStoreApplicationTests {
         when(userRep.findByEmail("lera@a")).thenReturn(u);
         Assert.assertEquals(userService.findByEmail("lera@a"), u);
     }
-
 
 }

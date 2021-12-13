@@ -63,7 +63,8 @@ public class UserController {
             for(int i=0; i< list.size(); i++){
                 ResponseUserAppDto tempUserApp= new ResponseUserAppDto();
                 tempUserApp.setName(list.get(i).getApplication().getName());
-                tempUserApp.setId_userApp(list.get(i).getApplication().getId());
+                tempUserApp.setId_app(list.get(i).getApplication().getId());
+                tempUserApp.setId_userApp(list.get(i).getId());
                 responseUserAppDtoList.add(tempUserApp);
             }
             return new ResponseEntity<>(responseUserAppDtoList, HttpStatus.OK);

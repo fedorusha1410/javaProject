@@ -14,5 +14,7 @@ public class ResponseUserAppDto {
 
     private  Long id_userApp;
 
+    private Long id_app;
+
 
 }
