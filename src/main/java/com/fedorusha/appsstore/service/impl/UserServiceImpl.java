@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private  final UserMapper userMapper;
 
 
     private static final String ROLE_USER = "ROLE_USER";
@@ -65,6 +66,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User findByEmail(String Email) {
+        return userRepository.findByEmail(Email);
+    }
+
+    @Override
+    public List<UserDto> users() {
+        List<User> users = findAll();
+        List<UserDto> usersdto = new ArrayList<>();
+        for (User u: users) {
+            usersdto.add(userMapper.toDTO(u));
+        }
+        return usersdto;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
 
     private void sendMessageRegistration(User user) {

@@ -1,8 +1,6 @@
 package com.fedorusha.appsstore.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,7 +9,8 @@ import java.util.List;
 @Table(name = "Roles")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 
     @Id

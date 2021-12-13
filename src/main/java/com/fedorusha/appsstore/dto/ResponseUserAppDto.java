@@ -12,7 +12,7 @@ public class ResponseUserAppDto {
 
     private String name;
 
-    private  Long id;
+    private  Long id_userApp;
 
 
 }

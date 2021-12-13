@@ -155,7 +155,7 @@ function getMyApps() {
                             res.forEach(obj => {
 
                                 str += '<tr>' +
-                                    '<td>' + obj.name + '</td>' +
+                                    '<td>' + obj.name + '</td>' +  '<td>' + obj.id_userApp + '</td>' +
                                     '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-name="'
                                     + obj.name +
                                     '">Uninstall</button>' + '</td>' +
@@ -172,8 +172,10 @@ function getMyApps() {
                 if (e.target.classList.contains('uninstall__button')) {
                     const element = e.target;
                     const name = element.dataset.name;
+                    const idApp=element.dataset.id_userApp;
+                    console.log(idApp);
                     //console.log(name);
-                    uninstall(name).then(r => console.log(r));
+                    uninstall(idApp).then(r => console.log(r));
                 }
             });
 
@@ -185,7 +187,20 @@ function getMyApps() {
 
 }
 
-function  uninstall(name){
+function  uninstall(id_App){
+
+    let id = localStorage.getItem("Id");
+    //let idApp=id_userApp;
+   console.log(id_App);
+    // fetch("/api/user/usersApps/" +id, {
+    //     method: 'GET',
+    //     headers:
+    //         {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json',
+    //             'Authorization': header
+    //         }
+    // })
 
 }
 

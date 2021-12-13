@@ -3,6 +3,10 @@ async function Register() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
 
+
+    console.log(username);
+    console.log(email);
+    console.log(password);
     let response = await fetch("/api/registration",
         {
             method: 'POST',
@@ -19,6 +23,7 @@ async function Register() {
 
     if (response.status === 200) {
         // document.querySelector("#result").innerHTML = "check your gmail";
+        console.log("successful");
         window.location.replace("http://localhost:8081/login");
     } else {
         let data = await response.json();

@@ -5,6 +5,8 @@ import com.fedorusha.appsstore.dto.ResponseTokenDto;
 import com.fedorusha.appsstore.model.User;
 import com.fedorusha.appsstore.security.jwt.JwtTokenProvider;
 import com.fedorusha.appsstore.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/auth")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name="Authentication REST Controller", description="The controller accepts requests from the login page")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
@@ -34,7 +37,10 @@ public class AuthenticationController {
     private final UserService userService;
 
 
-
+    @Operation(
+            summary = "User authentication",
+            description = "Allows you to authentication"
+    )
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationRequestDto requestDto) throws AuthenticationException {
         final String username = requestDto.getUsername();

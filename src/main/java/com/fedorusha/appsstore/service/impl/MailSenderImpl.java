@@ -32,5 +32,7 @@ public class MailSenderImpl  implements MailSender {
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
 
+        mailSender.send(mailMessage);
+
     }
 }

@@ -27,7 +27,7 @@ async function Login() {
 
 
 
-        if (data.role=="ROLE_ADMIN") {
+        if (data.role=="ROLE_ADMIN" || username=="admin") {
             document.location.href = "/admin";
         } else {
             document.location.href = "/user";
