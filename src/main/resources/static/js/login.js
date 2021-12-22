@@ -21,6 +21,7 @@ async function Login() {
     if (response.status === 200) {
         localStorage.setItem("jwt", data.token);
         localStorage.setItem("Id", data.id);
+        localStorage.setItem("username", username );
         console.log(localStorage.getItem("jwt"));
         console.log(localStorage.getItem("Id"));
 

@@ -5,6 +5,7 @@ import com.fedorusha.appsstore.exceptions.UserException;
 import com.fedorusha.appsstore.mapper.AppMapper;
 import com.fedorusha.appsstore.mapper.UserMapper;
 import com.fedorusha.appsstore.model.Apps;
+import com.fedorusha.appsstore.model.User;
 import com.fedorusha.appsstore.model.UsersApplication;
 import com.fedorusha.appsstore.repository.UserRepository;
 import com.fedorusha.appsstore.service.ApplicationService;
@@ -63,9 +64,11 @@ public class UserController {
             for(int i=0; i< list.size(); i++){
                 ResponseUserAppDto tempUserApp= new ResponseUserAppDto();
                 tempUserApp.setName(list.get(i).getApplication().getName());
+                tempUserApp.setDesc(list.get(i).getApplication().getDescription());
                 tempUserApp.setId_app(list.get(i).getApplication().getId());
                 tempUserApp.setId_userApp(list.get(i).getId());
                 responseUserAppDtoList.add(tempUserApp);
+
             }
             return new ResponseEntity<>(responseUserAppDtoList, HttpStatus.OK);
         } else {
@@ -80,11 +83,13 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity addUserApp(@RequestBody @Valid RequestUsersAppDto requestUsersAppDto) throws UserException {
 
-        UsersAppDto usersAppDto= new UsersAppDto();
-        usersAppDto.setApp(applicationService.getByName(requestUsersAppDto.getApp_name()));
-        usersAppDto.setUser(userRepository.getById(requestUsersAppDto.getId()));
-        usersAppDto.setName(requestUsersAppDto.getApp_name());
-         userApplicationService.save(usersAppDto);
+//        UsersAppDto usersAppDto= new UsersAppDto();
+//        usersAppDto.setApp(applicationService.getByName(requestUsersAppDto.getApp_name()));
+
+//        //usersAppDto.setUser();
+//        usersAppDto.setName(requestUsersAppDto.getApp_name());
+
+         userApplicationService.save(requestUsersAppDto);
        return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 
@@ -92,9 +97,10 @@ public class UserController {
             summary = "Removing an object from the list",
             description = "Removing an object from the list of custom applications"
     )
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteUsersApp(@PathVariable(value = "id") Long id) throws UserException {
-        userApplicationService.deleteUsersApp(id);
+        Long delete_id=id;
+        userApplicationService.deleteUsersApp(delete_id);
         return new ResponseEntity<>(new ResponseDto(), HttpStatus.OK);
     }
 

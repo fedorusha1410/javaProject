@@ -30,8 +30,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-
-
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
@@ -54,8 +52,7 @@ public class User {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usersApp_id")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UsersApplication> usersApplicationList;
 
 

@@ -12,6 +12,8 @@ public class ResponseUserAppDto {
 
     private String name;
 
+    private String desc;
+
     private  Long id_userApp;
 
     private Long id_app;

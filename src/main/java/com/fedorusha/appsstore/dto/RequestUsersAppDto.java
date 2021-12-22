@@ -11,4 +11,6 @@ import lombok.*;
 public class RequestUsersAppDto {
     private Long id;
     private String app_name;
+    private String username;
+
 }

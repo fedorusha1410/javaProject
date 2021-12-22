@@ -12,6 +12,7 @@ public interface UserApplicationRepository extends JpaRepository<UsersApplicatio
 
     List<UsersApplication> getUsersApplicationByApplication(Apps apps);
 
+    void deleteUsersApplicationByApplication(Long id);
 
 }
 

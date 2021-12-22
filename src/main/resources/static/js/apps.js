@@ -19,53 +19,59 @@ function getApps() {
         templateObject = data[0];
         console.log(templateObject);
         result.innerHTML = "";
+        let str = 'Not Found';
+        str = '<table style="border-spacing: 0 10px;\n' +
+            'font-family: \'Open Sans\', sans-serif;\n' +
+            'font-weight: bold;">' +
+            '    <thead>' +
+            '    <tr>' +
+            '        <th>App</th>' +
 
-        let counter = 0;
-        let keys;
-        let values;
+            '    </tr>' +
+            '    </thead>' +
+            '    <tbody>';
+        data.forEach(obj => {
 
-        data.forEach(element => {
-            keys = Object.keys(element);
-            values = Object.values(element);
-            let table_value = "<div style='display: flex'>";
 
-            for (let i = 0; i < keys.length; i++) {
-                table_value += "<div style='display: flex; flex-direction: column; margin-right: 10px; margin-left: 10px'>"
-                    + keys[i] + ": "
-                    + `<input type="text" value='${values[i]}' id='${keys[i]}${counter}' style='width: 160px'/></div>`;
-            }
-
-            table_value += `<button class="apps" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
-            table_value += `<button class="apps" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
-            result.innerHTML += table_value + "<br/></div>";
-            counter++;
+            str += '<tr>' +
+                '<td>' + obj.name + '</td>' +
+                '<td>' + obj.desc + '</td>' +
+                '<td>' + obj.id + '</td>' +
+                '<td>' + '<button class="delete__button" style="color: palevioletred; margin: 5px;"  data-name="'
+                + obj.id +
+                '">Delete App</button>' + '</td>' +
+                '</tr>';
         });
-        let table_value_second = "<div style='display: flex'>";
 
-        for (let i = 0; i < keys.length; i++) {
-            table_value_second += "<div style='display: flex; flex-direction: column; margin-right: 10px; margin-left: 10px'>"
-                + keys[i] + ": "
-                + `<input type="text" id='${keys[i]}${counter}' style='width: 160px'/></div> `;
-        }
-        table_value_second += `<button class="films" onclick="insertApp('${counter}')" style="width: 90px;  margin: 5px; align-self: flex-end">Insert</button>`;
-        result.innerHTML += table_value_second + "<br/></div>";
-        counter++;
+        str += '</tbody></table>';
+
+        document.getElementById("apps").innerHTML = str;
     });
+
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete__button')) {
+            const element = e.target;
+            //const name = element.dataset.name;
+            const id = element.dataset.name;
+            console.log(id);
+
+            deleteApp(id);
+        }
+    });
+
 }
+
 
 function insertApp(num) {
     console.log("INSERT");
 
-    let insertObject = jsonArray[num - 1];
-    let updKeys = Object.keys(insertObject);
-    let updValues = Object.values(insertObject);
-
-    for (let i = 0; i < updKeys.length; i++) {
-        updValues[i] = document.getElementById(updKeys[i] + num).value;
-        console.log(updValues[i]);
-        insertObject[updKeys[i]] = updValues[i];
+    let name = document.getElementById("name").value;
+    let desc = document.getElementById("desc").value;
+    if(name==null || desc==null){
+        alert("Enter values!");
     }
-    console.log(insertObject);
+
+
 
     fetch(`/api/admin/apps`,
         {
@@ -75,74 +81,60 @@ function insertApp(num) {
                     "Content-Type": 'application/json',
                     "Accept": 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-                }, body: JSON.stringify(insertObject)
-        }).then(res => {
-        return res.json();
-    }).then((data) => {
-        console.log(data);
-    });
+                }, body:JSON.stringify({
+                name: name,
+                desc: desc
+            })
+        }).then(res => res.json()).then(res => {
+        if (res.status >= 400 && res.status <= 500) {
+            console.log(res.status);
+        } else {
+
+            console.log("successful");
+
+        }
+    })
 }
 
-function search() {
-    let filmName = document.getElementById('search').value;
-    console.log('SEARCH_FILMS');
-    fetch(`/api/apps/admin/${appName}`, {
+
+
+async function getCharacter(){
+    fetch("/api/admin/apps", {
         method: 'GET',
-        headers:
-            {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-            }
-    }).then(res => {
-        return res.json();
-    }).then(data => {
-        console.log(data);
-        jsonArray = data;
-        templateObject = data[0];
-        console.log(templateObject);
-        result.innerHTML = "";
-
-        let counter = 0;
-        let keys;
-        let values;
-
-        data.forEach(element => {
-            keys = Object.keys(element);
-            values = Object.values(element);
-            let table_value = "<div style='display: flex'>";
-
-            for (let i = 0; i < keys.length; i++) {
-                table_value += "<div style='display: flex; flex-direction: column; margin-right: 10px; margin-left: 10px'>"
-                    + keys[i] + ": "
-                    + `<input type="text" value='${values[i]}' id='${keys[i]}${counter}' style='width: 160px'/></div>`;
-            }
-
-            table_value += `<button class="apps" onclick="deleteApp('${values[0]}')" style="width: 90px; margin: 5px; align-self: flex-end">Delete</button>`
-            table_value += `<button class="apps" onclick="updateApp('${values[0]}','${counter}')" style="width: 90px; margin: 5px; align-self: flex-end">Update</button>`
-            result.innerHTML += table_value + "<br/></div>";
-            counter++;
-        });
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
+        }
+    }).then(res => res.json()).then(res => {
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            var list = document.getElementById('appss');
+            let apps = res;
+            apps.forEach(obj => {
+                console.log(obj.name);
+                var option = document.createElement('option');
+                option.value = obj.name;
+                list.appendChild(option);
+            });
+        }
     });
 }
 
 function updateApp(id, num) {
     console.log("UPDATE");
 
-    console.log(jsonArray[num]);
 
-    let updObject = jsonArray[num];
-    let updKeys = Object.keys(updObject);
-    let updValues = Object.values(updObject);
+    let name = document.getElementById("appSearch").value;
+    let desc = document.getElementById("newDesc").value;
 
-    for (let i = 0; i < updKeys.length; i++) {
-        updValues[i] = document.getElementById(updKeys[i] + num).value;
-        console.log(updValues[i]);
-        updObject[updKeys[i]] = updValues[i];
-    }
-    console.log(updObject);
 
-    fetch(`/api/admin/apps/${id.toString()}`,
+
+
+
+
+    fetch(`/api/admin/apps/update`,
         {
             method: "PUT",
             headers:
@@ -150,7 +142,10 @@ function updateApp(id, num) {
                     "Content-Type": 'application/json',
                     "Accept": 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-                }, body: JSON.stringify(updObject)
+                },body:JSON.stringify({
+                name: name,
+                desc: desc
+            })
         }).then(res => {
         return res.json();
     }).then((data) => {
@@ -159,10 +154,10 @@ function updateApp(id, num) {
 }
 
 function deleteApp(id) {
-    alert(id);
-    console.log("delete_element: " + " name: " + id);
+    //alert(id);
+    console.log("delete_element: " + " id: " + id);
 
-    fetch(`/api/admin/apps/${id.toString()}`, {
+    fetch("/api/admin/apps/" + id, {
         method: "DELETE",
         headers: {
             "Content-Type": 'application/json; charset=utf-8',
@@ -170,9 +165,13 @@ function deleteApp(id) {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`
         }
 
-    }).then(res => {
-        return res.json();
-    }).then((data) => {
-        console.log(data);
+    }).then(res => res.json()).then(res => {
+        if (res.status >= 400 && res.status <= 500) {
+            console.log(res.status);
+        } else {
+
+            console.log("successful");
+
+        }
     })
 }

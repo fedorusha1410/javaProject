@@ -1,6 +1,7 @@
 package com.fedorusha.appsstore.service.impl;
 
 import com.fedorusha.appsstore.dto.ApplicationDto;
+import com.fedorusha.appsstore.dto.InsertingAppDto;
 import com.fedorusha.appsstore.mapper.AppMapper;
 import com.fedorusha.appsstore.model.Apps;
 import com.fedorusha.appsstore.model.UsersApplication;
@@ -27,7 +28,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         List<ApplicationDto> applicationDtos = new ArrayList<>();
         List<Apps> apps = applicationRepository.findAll();
         for (Apps app : apps) {
-            ApplicationDto appDto = AppMapper.INSTANCE.toDTO(app);
+            ApplicationDto appDto = new ApplicationDto();
+            appDto.setName(app.getName());
+            appDto.setDesc(app.getDescription());
+            appDto.setId(app.getId());
             applicationDtos.add(appDto);
         }
         return applicationDtos;
@@ -48,18 +52,20 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
-    public Apps save(ApplicationDto applicationDto) {
-        final Apps app = AppMapper.INSTANCE.fromDTO(applicationDto);
-        log.info("Created application {}", app);
+    public Apps save(InsertingAppDto insertingAppDto) {
+
+        final Apps app = new Apps();
+        app.setName(insertingAppDto.getName());
+        app.setDescription(insertingAppDto.getDesc());
+        log.info("Inserted new  application {}", app);
         return applicationRepository.save(app);
     }
 
     @Override
-    public Apps update(ApplicationDto applicationDto, String appsName) {
-        Apps app = applicationRepository.findByName(appsName);
-        Apps changeApp = AppMapper.INSTANCE.fromDTO(applicationDto);
-        app.setName(changeApp.getName());
-        app.setDescription(changeApp.getDescription());
+    public Apps update(ApplicationDto applicationDto) {
+        Apps app = applicationRepository.findByName(applicationDto.getName());
+
+        app.setDescription(applicationDto.getDesc());
         log.info("Update application {}", app);
         return applicationRepository.save(app);
     }

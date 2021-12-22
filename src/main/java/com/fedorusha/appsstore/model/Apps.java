@@ -29,6 +29,10 @@ public class Apps {
     @Column(name = "description")
     private String description;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "application", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<UsersApplication> usersApplicationList;
 
 
 }

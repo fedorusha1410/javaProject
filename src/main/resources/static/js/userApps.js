@@ -39,16 +39,21 @@ function getApps() {
                                 'font-weight: bold;">' +
                                 '    <thead>' +
                                 '    <tr>' +
-                                '        <th>App</th>' +
+                                '        <th><h1 style=" color: antiquewhite ">Welcome to our applications store</h1></th>' +
 
                                 '    </tr>' +
+                                '<tr>'+
+                                '        <th><h2 style=" color: antiquewhite ">Name</h2></th>' +
+                                '        <th><h2 style=" color: antiquewhite ">Description</h2></th>' +
+                                '</tr>'+
                                 '    </thead>' +
                                 '    <tbody>';
                             res.forEach(obj => {
                                 counter = obj.id;
                                 console.log(counter);
                                 str += '<tr>' +
-                                    '<td>' + obj.name + '</td>' +
+                                    '<td style="text-align: center"><h4 style="color: antiquewhite">' + obj.name + '</h4></td>' +
+                                    '<th><h5 style=" color: #2e3a6a">' + obj.desc + '</h5></th>' +
                                     '<td>' + '<button class="install__button" style="color: palevioletred; margin: 5px;"  data-name="'
                                     + obj.name +
                                     '">Install</button>' + '</td>' +
@@ -96,7 +101,8 @@ async function install(name) {
             },
             body: JSON.stringify({
                 app_name: app_name,
-                id: user_id
+                id: user_id,
+                username : localStorage.getItem("username")
             })
         }).then(res => res.json()).then(res => {
         if (res.status >= 400 && res.status <= 500) {
@@ -156,7 +162,7 @@ function getMyApps() {
 
                                 str += '<tr>' +
                                     '<td>' + obj.name + '</td>' +  '<td>' + obj.id_userApp + '</td>' +
-                                    '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-id_userApp="'
+                                    '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-name="'
 
                                     + obj.id_userApp + '">Uninstall</button>' + '</td>' +
                                     '</tr>';
@@ -172,9 +178,9 @@ function getMyApps() {
                 if (e.target.classList.contains('uninstall__button')) {
                     const element = e.target;
                     //const name = element.dataset.name;
-                    const idApp=element.dataset.id_userApp;
+                    const idApp=element.dataset.name;
                     console.log(idApp);
-                    console.log(name);
+
                     uninstall(idApp);
                 }
             });
@@ -189,18 +195,26 @@ function getMyApps() {
 
 function  uninstall(id_App){
 console.log("Uninstall");
-    let id = localStorage.getItem("Id");
-    //let idApp=id_userApp;
-   console.log(id_App);
-    // fetch("/api/user/usersApps/" +id, {
-    //     method: 'GET',
-    //     headers:
-    //         {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json',
-    //             'Authorization': header
-    //         }
-    // })
+    let id = id_App;
+
+   console.log(id);
+    fetch("/api/user/delete/" +id, {
+        method: 'DELETE',
+        headers:
+            {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': header
+            }
+    }).then(res => res.json()).then(res => {
+        if (res.status >= 400 && res.status <= 500) {
+            console.log(res.status);
+        } else {
+
+            console.log("successful");
+
+        }
+    })
 
 }
 

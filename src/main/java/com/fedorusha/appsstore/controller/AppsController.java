@@ -1,10 +1,12 @@
 package com.fedorusha.appsstore.controller;
 
 import com.fedorusha.appsstore.dto.ApplicationDto;
+import com.fedorusha.appsstore.dto.InsertingAppDto;
 import com.fedorusha.appsstore.exceptions.AdminException;
 import com.fedorusha.appsstore.mapper.AppMapper;
 import com.fedorusha.appsstore.model.Apps;
 import com.fedorusha.appsstore.service.ApplicationService;
+import com.fedorusha.appsstore.service.UserApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class AppsController {
 
     private final ApplicationService applicationService;
+    private  final UserApplicationService userApplicationService;
 
     @Operation(
             summary = "List of all applications",
@@ -48,8 +51,8 @@ public class AppsController {
             description = "Method for saving the application from the database"
     )
     @PostMapping("/apps")
-    public ResponseEntity<ApplicationDto> save(@Valid @RequestBody ApplicationDto applicationDto) throws AdminException {
-        Apps app = applicationService.save(applicationDto);
+    public ResponseEntity<ApplicationDto> save(@Valid @RequestBody InsertingAppDto insertingAppDto) throws AdminException {
+        Apps app = applicationService.save(insertingAppDto);
         return ResponseEntity.ok(AppMapper.INSTANCE.toDTO(app));
     }
 
@@ -57,9 +60,10 @@ public class AppsController {
             summary = "Updating an object",
             description = "Method for updating an application from the database"
     )
-    @PutMapping("/apps/{appName}")
-    public ResponseEntity<ApplicationDto> update(@Valid @RequestBody ApplicationDto applicationDto, @PathVariable(name = "appName") String appName) throws AdminException {
-        Apps app = applicationService.update(applicationDto, appName);
+    @PutMapping("/apps/update")
+    public ResponseEntity<ApplicationDto> update(@Valid @RequestBody ApplicationDto applicationDto) throws AdminException {
+
+        Apps app = applicationService.update(applicationDto);
         return ResponseEntity.ok(AppMapper.INSTANCE.toDTO(app));
     }
 
@@ -67,10 +71,12 @@ public class AppsController {
             summary = "Deleting an object",
             description = "Method for removing an application from the database"
     )
-    @DeleteMapping("/apps/{appName}")
+    @DeleteMapping("/apps/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void delete(@PathVariable(name = "appName") String appName) throws AdminException {
-        applicationService.delete(appName);
+    public void delete(@PathVariable(value = "id") Long id) throws AdminException {
+        Apps newApps= applicationService.getById(id);
+        applicationService.delete(newApps.getName());
+
     }
 
 }

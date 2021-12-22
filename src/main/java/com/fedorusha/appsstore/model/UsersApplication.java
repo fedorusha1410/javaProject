@@ -14,7 +14,7 @@ public class UsersApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usersApp_id", insertable = false, updatable = false)
+    @Column(name = "users_app_id")
     private long id;
 
     @EqualsAndHashCode.Exclude
@@ -22,7 +22,6 @@ public class UsersApplication {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

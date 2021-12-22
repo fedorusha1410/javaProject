@@ -1,6 +1,7 @@
 package com.fedorusha.appsstore.mapper;
 
 import com.fedorusha.appsstore.dto.ApplicationDto;
+import com.fedorusha.appsstore.dto.InsertingAppDto;
 import com.fedorusha.appsstore.model.Apps;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -13,5 +14,7 @@ public interface AppMapper {
     abstract ApplicationDto toDTO(Apps app);
 
     Apps fromDTO(ApplicationDto appDto);
+
+    Apps fromDTO2(InsertingAppDto insertingAppDto);
 
 }

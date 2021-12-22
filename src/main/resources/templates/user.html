@@ -5,13 +5,103 @@
     <title>Title</title>
     <script th:src="@{/js/userApps.js}"></script>
     <style>
+        body {
+            background-color: palevioletred;
+        }
+        button.apps {
+            width: 150px;
+            height: 40px;
+            text-decoration: none;
+            padding-top: 9px;
+            color: #a675b3;
+            text-align: center;
+            line-height: 20px;
+            display: block;
+            margin: 20px auto;
+            font: normal 17px arial;
+        }
 
+        button.apps:not(.active) {
+            box-shadow: inset 0 1px 1px rgba(111, 55, 125, 0.8), inset 0 -1px 0px rgba(63, 59, 113, 0.2), 0 9px 16px 0 rgba(0, 0, 0, 0.3), 0 4px 3px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px #150a1e;
+            background-image: linear-gradient(#3b2751, #271739);
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 -1px 0 #311d47;
+        }
+
+        button.apps:not(.active):hover,
+        button.apps:not(.active):focus {
+            transition: color 200ms linear, text-shadow 500ms linear;
+            color: #fff;
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 0 10px rgba(223, 206, 228, 0.4), 0 0 2px #2a153c;
+        }
+        button.apps:not(:hover) {
+            transition: 0.6s;
+        }
+
+        /*---------------*/
+        button.install__button {
+            width: 150px;
+            height: 40px;
+            text-decoration: none;
+            padding-top: 9px;
+            color: #a675b3;
+            text-align: center;
+            line-height: 20px;
+            display: block;
+            margin: 20px auto;
+            font: normal 17px arial;
+        }
+
+        button.install__button:not(.active) {
+            box-shadow: inset 0 1px 1px rgba(111, 55, 125, 0.8), inset 0 -1px 0px rgba(63, 59, 113, 0.2), 0 9px 16px 0 rgba(0, 0, 0, 0.3), 0 4px 3px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px #150a1e;
+            background-image: linear-gradient(#3b2751, #271739);
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 -1px 0 #311d47;
+        }
+
+        button.install__button:not(.active):hover,
+        button.install__button:not(.active):focus {
+            transition: color 200ms linear, text-shadow 500ms linear;
+            color: #fff;
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 0 10px rgba(223, 206, 228, 0.4), 0 0 2px #2a153c;
+        }
+        button.install__button:not(:hover) {
+            transition: 0.6s;
+        }
+
+        /*--------------------------*/
+        button.uninstall__button {
+            width: 150px;
+            height: 40px;
+            text-decoration: none;
+            padding-top: 9px;
+            color: #a675b3;
+            text-align: center;
+            line-height: 20px;
+            display: block;
+            margin: 20px auto;
+            font: normal 17px arial;
+        }
+
+        button.uninstall__button:not(.active) {
+            box-shadow: inset 0 1px 1px rgba(111, 55, 125, 0.8), inset 0 -1px 0px rgba(63, 59, 113, 0.2), 0 9px 16px 0 rgba(0, 0, 0, 0.3), 0 4px 3px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px #150a1e;
+            background-image: linear-gradient(#3b2751, #271739);
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 -1px 0 #311d47;
+        }
+
+        button.uninstall__button:not(.active):hover,
+        button.uninstall__button:not(.active):focus {
+            transition: color 200ms linear, text-shadow 500ms linear;
+            color: #fff;
+            text-shadow: 0 0 21px rgba(223, 206, 228, 0.5), 0 0 10px rgba(223, 206, 228, 0.4), 0 0 2px #2a153c;
+        }
+        button.uninstall__button:not(:hover) {
+            transition: 0.6s;
+        }
     </style>
 </head>
 
-<body >
-<button class="apps"   onclick="getApps()" style="margin-left: 20px; width: 110px">Go to store</button>
-<button class="apps"  onclick="getMyApps()" style="margin-left: 20px; width: 110px">My Application</button>
+<body>
+<button class="apps"   onclick="getApps()" >Go to store</button>
+<button class="apps"  onclick="getMyApps()" >My Application</button>
 <div id="apps"></div>
 <span id="mesPet"/>
 </body>
