@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface UserApplicationService {
 
-    List<UsersApplication> getAllUsersAppsByUserId(Long id);
+    List<UsersApplication> getAllUsersAppsByUserId(Long id, int page);
+
 
     void deleteUsersApp(Long id);
 

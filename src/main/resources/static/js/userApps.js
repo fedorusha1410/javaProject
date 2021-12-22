@@ -8,6 +8,8 @@ function errorPage(mes) {
 
 function getApps() {
     console.log('GET_APPS');
+
+
     fetch(`/api/user/apps`, {
         method: 'GET',
         headers:
@@ -75,6 +77,7 @@ function getApps() {
                 }
             });
 
+
             document.getElementById("apps").innerHTML = str;
 
 
@@ -122,7 +125,20 @@ function getMyApps() {
     console.log('GET_MY_APPS');
     let id = localStorage.getItem("Id");
     console.log(id);
-    fetch("/api/user/usersApps/" +id, {
+
+
+    page=1;
+
+    // if( document.getElementById("sort").value=="asc"){
+    //     sort = 1;
+    // } else{
+    //     sort=2
+    // }
+    // if($('#sort option:selected').text() == "asc")
+    //     sort = 1;
+    // else sort = 2;
+
+    fetch("/api/user/usersApps/" +id + "?page=" + page, {
         method: 'GET',
         headers:
             {
@@ -184,7 +200,7 @@ function getMyApps() {
                     uninstall(idApp);
                 }
             });
-
+        str += '</tbody></table></div><button onclick="back()">Back</button></br><button onclick="next()">Next</button>';
             document.getElementById("apps").innerHTML = str;
 
 
@@ -219,3 +235,117 @@ console.log("Uninstall");
 }
 
 
+async function back(){
+    if (page < 1)
+        return;
+    else --page;
+
+    let id = localStorage.getItem("Id");
+    document.getElementById("apps").innerHTML = "";
+    fetch("/api/user/usersApps/" +id + "?page=" + page, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : header
+        }
+    }).then(res => res.json()).then(res => {
+        let str = 'Not Found';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table style="border-spacing: 0 10px;\n' +
+                    'font-family: \'Open Sans\', sans-serif;\n' +
+                    'font-weight: bold;">' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>App</th>' +
+
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+
+                    str += '<tr>' +
+                        '<td>' + obj.name + '</td>' +  '<td>' + obj.id_userApp + '</td>' +
+                        '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-name="'
+
+                        + obj.id_userApp + '">Uninstall</button>' + '</td>' +
+                        '</tr>';
+                });
+
+                str += '</tbody></table></div><button onclick="back()">Back</button></br><button onclick="next()">Next</button>';
+            }
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('uninstall__button')) {
+                    const element = e.target;
+                    //const name = element.dataset.name;
+                    const idApp=element.dataset.name;
+                    console.log(idApp);
+
+                    uninstall(idApp);
+                }
+            });
+            document.getElementById("apps").innerHTML = str;
+
+        }
+    });
+}
+
+async function next(){
+    ++page;
+
+    document.getElementById("apps").innerHTML = "";
+    let id = localStorage.getItem("Id");
+
+    fetch("/api/user/usersApps/" +id + "?page=" + page, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization' : header
+        }
+    }).then(res => res.json()).then(res => {
+        let str = 'Not Found';
+        if(res.status == 500){
+            $('#div').html(errorPage("Authorisation Error"));
+        }else {
+            if (!res.error) {
+                str = '<table style="border-spacing: 0 10px;\n' +
+                    'font-family: \'Open Sans\', sans-serif;\n' +
+                    'font-weight: bold;">' +
+                    '    <thead>' +
+                    '    <tr>' +
+                    '        <th>App</th>' +
+
+                    '    </tr>' +
+                    '    </thead>' +
+                    '    <tbody>';
+                res.forEach(obj => {
+
+                    str += '<tr>' +
+                        '<td>' + obj.name + '</td>' +  '<td>' + obj.id_userApp + '</td>' +
+                        '<td>' + '<button class="uninstall__button" style="color: palevioletred; margin: 5px;"  data-name="'
+
+                        + obj.id_userApp + '">Uninstall</button>' + '</td>' +
+                        '</tr>';
+                });
+                str += '</tbody></table></div><button onclick="back()">Back</button></br><button onclick="next()">Next</button>';
+            }
+
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('uninstall__button')) {
+                    const element = e.target;
+                    //const name = element.dataset.name;
+                    const idApp=element.dataset.name;
+                    console.log(idApp);
+
+                    uninstall(idApp);
+                }
+            });
+
+            document.getElementById("apps").innerHTML = str;
+        }
+    });
+}

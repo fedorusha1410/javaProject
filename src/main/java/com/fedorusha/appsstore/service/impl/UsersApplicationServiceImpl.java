@@ -14,10 +14,14 @@ import com.fedorusha.appsstore.service.UserApplicationService;
 import com.fedorusha.appsstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,9 +35,17 @@ public class UsersApplicationServiceImpl implements UserApplicationService {
 
 
     @Override
-    public List<UsersApplication> getAllUsersAppsByUserId(Long id) {
+    public List<UsersApplication> getAllUsersAppsByUserId(Long id,  int page) {
 
-        return userApplicationRepository.getUsersApplicationsByUser_Id(id);
+        Page<UsersApplication> list = null;
+
+        list = userApplicationRepository.getUsersApplicationByUser_Id(id, PageRequest.of(page, 3));
+
+        List<UsersApplication> listR=new ArrayList<>();
+        for (UsersApplication a:list){
+            listR.add(a);
+        }
+        return listR;
     }
 
 

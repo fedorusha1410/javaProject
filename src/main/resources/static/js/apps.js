@@ -1,5 +1,6 @@
 let jsonArray;
 let templateObject;
+let page = 0;
 
 function getApps() {
     console.log('GET_APPS');
@@ -175,3 +176,7 @@ function deleteApp(id) {
         }
     })
 }
+
+
+
+

@@ -54,8 +54,9 @@ public class UserController {
             description = "Getting a list of all users applications"
     )
     @GetMapping("/usersApps/{id}")
-    public ResponseEntity<?> getUsersApps(@PathVariable(value = "id") Long id) throws UserException {
-        List<UsersApplication> list = userApplicationService.getAllUsersAppsByUserId(id);
+    public ResponseEntity<?> getUsersApps(@PathVariable(value = "id") Long id, @RequestParam(value="page") int page) throws UserException {
+        List<UsersApplication> list = userApplicationService.getAllUsersAppsByUserId(id, page);
+
 
 
         if (list != null) {
